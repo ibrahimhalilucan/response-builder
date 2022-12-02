@@ -2,9 +2,11 @@
 
 namespace Chaos\ResponseBuilder;
 
+use Chaos\ResponseBuilder\Exception\InvalidArrayArgumentException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -162,6 +164,20 @@ class ResponseBuilder
         return $this;
     }
 
+    /**
+     * @param array $appends
+     * @return $this
+     */
+    public function append(array $appends = []): self
+    {
+        if (!empty($appends) && !Arr::isAssoc($appends)) {
+            throw new InvalidArrayArgumentException('Appends must be an associative array');
+        }
+        foreach ($appends as $key => $value) {
+            $this->appends[$key] = $value;
+        }
+        return $this;
+    }
 
     /**
      * @param $resource
