@@ -1,0 +1,23 @@
+{
+    "name": "chaos/response-builder",
+    "description": "Laravel API Response Builder",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Chaos\\ResponseBuilder\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ibrahimhalilucan",
+            "email": "ibrahimhalilucan@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.0.0",
+        "orchestra/testbench": "8.0.x-dev",
+        "phpunit/phpunit": "^9.5"
+    }
+}
