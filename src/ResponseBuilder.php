@@ -170,7 +170,7 @@ class ResponseBuilder
     private function paginationCollection($resource): array
     {
         $pagination = $resource->linkCollection()->filter(function ($item) {
-            return (int)$item["label"] <= 5;
+            return (int)$item["label"] <= config('response-builder.pagination_size_count');
         })->values();
 
         return [

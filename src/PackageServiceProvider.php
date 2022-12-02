@@ -17,6 +17,7 @@ class PackageServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind('response_builder', ResponseBuilder::class);
+        $this->mergeConfigFrom(__DIR__ . './../config/response-builder.php', 'response-builder');
     }
 
     /**
@@ -36,6 +37,9 @@ class PackageServiceProvider extends ServiceProvider
      */
     protected function configurePublishing(): void
     {
-
+        if ($this->app->runningInConsole()) {
+            $this->publishes([__DIR__ . './../config/response-builder.php' => config_path('response-builder.php')],
+                'response-builder');
+        }
     }
 }
