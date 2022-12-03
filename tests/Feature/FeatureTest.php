@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Validator;
 use Chaos\ResponseBuilder\Facades\ResponseBuilder;
-use Chaos\ResponseBuilder\Resources\MessageResource;
 use Illuminate\Validation\Rule;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +22,7 @@ class FeatureTest extends TestCase
     /**
      * @var array
      */
-    private array $data = [
+    private $data = [
         'device_id'     => "26728172-d050-4126-8ee2-4bfe8201565c",
         'secret'        => "0184cd97-7351-7121-91cb-5a818f3eb4b0",
         'platform'      => "iOS",
@@ -36,7 +35,7 @@ class FeatureTest extends TestCase
     /**
      * @var string
      */
-    private string $customKey = 'custom-key';
+    private $customKey = 'custom-key';
 
     /** @test */
     public function test_data_should_return_success_response()
@@ -84,33 +83,6 @@ class FeatureTest extends TestCase
         $responseData = json_decode($response, true)["meta"]["code"];
 
         $this->assertTrue(Response::HTTP_OK === $responseData);
-    }
-
-    /** @test */
-    public function test_with_resource_data_should_return_success_response()
-    {
-        $data = collect(
-            [
-                "tr" => "Merhaba! Aklındaki tüm soruları sorabilirsin. En kısa sürede cevaplayacağım. 🤗",
-                "en" => "Hello! You can ask all your questions. I'll answer them as soon as I can. 🤗",
-                "ru" => "Здравствуйте! Вы можете задать все интересующие Вас вопросы. Я отвечу на них в ближайшее время. 🤗",
-                "uk" => "Вітаю! Ви можете задати всі ваші запитання. Я відповім на них якомога швидше. 🤗",
-                "es" => "¡Hola! Puedes hacer todas tus preguntas. Las responderé tan pronto como pueda 🤗",
-                "de" => "Hallo! Du kannst alle deine Fragen stellen. Ich werde sie so schnell wie möglich beantworten. 🤗",
-                "he" => "שלום! אתה יכול לשאול את כל השאלות שלך. אענה להם ברגע שאוכל 🤗",
-                "ar" => "مرحبًا! يمكنك أن تسأل كل أسئلتك. سأجيب عليهم بأسرع ما يمكن 🤗",
-                "pt" => "Olá! Você pode tirar todas as suas dúvidas. Vou respondê-las assim que puder 🤗",
-                "ja" => "こんにちは！いかなる質問でもお聞きください。早急に回答いたします。 🤗",
-            ]
-        );
-
-        $response = ResponseBuilder::success($data, MessageResource::class)->build();
-
-        $response = $response->getContent();
-
-        $responseData = json_decode($response, true)["data"];
-
-        $this->assertTrue(!is_null($responseData));
     }
 
     /** @test */
