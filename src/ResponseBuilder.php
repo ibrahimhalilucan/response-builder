@@ -17,47 +17,47 @@ class ResponseBuilder
     /**
      * @var bool
      */
-    private bool $status;
+    private $status;
 
     /**
      * @var int $httpStatusCode
      */
-    private int $httpStatusCode;
+    private $httpStatusCode;
 
     /**
      * @var string
      */
-    private string $message;
+    private $message;
 
     /**
      * @var array
      */
-    private array $appends = [];
+    private $appends = [];
 
     /**
      * @var array
      */
-    private array $httpHeaders = [];
+    private $httpHeaders = [];
 
     /**
      * @var array
      */
-    private array $response = [];
+    private $response = [];
 
     /**
      * @var mixed
      */
-    private mixed $data = null;
+    private $data = null;
 
     /**
      * @var mixed
      */
-    private mixed $errors = null;
+    private $errors = null;
 
     /**
      * @var mixed
      */
-    private mixed $pagination = null;
+    private $pagination = null;
 
     /**
      * @param bool $status
@@ -83,10 +83,10 @@ class ResponseBuilder
     }
 
     /**
-     * @param array|null $headers
+     * @param array $headers
      * @return $this
      */
-    public function httpHeaders(?array $headers): self
+    public function httpHeaders(array $headers): self
     {
         $this->httpHeaders = $headers;
         return $this;
@@ -103,11 +103,26 @@ class ResponseBuilder
     }
 
     /**
+     * @param array $appends
+     * @return $this
+     */
+    public function append(array $appends = []): self
+    {
+        if (!empty($appends) && !Arr::isAssoc($appends)) {
+            throw new InvalidArrayArgumentException('Appends must be an associative array');
+        }
+        foreach ($appends as $key => $value) {
+            $this->appends[$key] = $value;
+        }
+        return $this;
+    }
+
+    /**
      * @param $resource
      * @param string|null $resourceNamespace
      * @return $this
      */
-    private function withData($resource, ?string $resourceNamespace = null): self
+    private function withData($resource, string $resourceNamespace = null): self
     {
         if (!empty($resourceNamespace)) {
             $data =
@@ -135,7 +150,7 @@ class ResponseBuilder
      * @param string|null $resourceNamespace
      * @return $this
      */
-    public function success($data, ?string $resourceNamespace = null): self
+    public function success($data, string $resourceNamespace = null): self
     {
         return $this->when(!empty($data), function (ResponseBuilder $builder) use ($data, $resourceNamespace) {
             return $builder->withData($data, $resourceNamespace);
@@ -161,21 +176,6 @@ class ResponseBuilder
     private function withError($data): self
     {
         $this->errors = $data;
-        return $this;
-    }
-
-    /**
-     * @param array $appends
-     * @return $this
-     */
-    public function append(array $appends = []): self
-    {
-        if (!empty($appends) && !Arr::isAssoc($appends)) {
-            throw new InvalidArrayArgumentException('Appends must be an associative array');
-        }
-        foreach ($appends as $key => $value) {
-            $this->appends[$key] = $value;
-        }
         return $this;
     }
 
@@ -206,7 +206,7 @@ class ResponseBuilder
      * @param callable $callback
      * @return $this
      */
-    public function when(bool $condition, callable $callback): self
+    private function when(bool $condition, callable $callback): self
     {
         if ($condition) {
             return $callback($this);

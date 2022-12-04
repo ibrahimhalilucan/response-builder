@@ -1,6 +1,6 @@
 <?php
 
-namespace Chaos\ResponseBuilder\Http\Traits;
+namespace Chaos\ResponseBuilder\Traits;
 
 use Illuminate\Contracts\Validation\Validator;
 use Chaos\ResponseBuilder\Facades\ResponseBuilder;
@@ -14,7 +14,7 @@ trait FailedValidationTrait
      * @return mixed
      * @throws ValidationException
      */
-    protected function failedValidation(Validator $validator): mixed
+    protected function failedValidation(Validator $validator)
     {
         $response = ResponseBuilder::error($validator->errors())
             ->httpStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY)
