@@ -1,23 +1,50 @@
 {
     "name": "chaos/response-builder",
     "description": "Laravel API Response Builder",
-    "type": "library",
     "license": "MIT",
+    "keywords": ["api", "laravel", "json-api", "rest-api", "response", "restful-api"],
+    "type": "library",
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "İbrahim Halil Uçan",
+            "email": "ibrahimhalilucan@gmail.com",
+            "homepage": "",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Chaos\\ResponseBuilder\\": "src/"
         }
     },
-    "authors": [
-        {
-            "name": "ibrahimhalilucan",
-            "email": "ibrahimhalilucan@gmail.com"
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
-    ],
-    "minimum-stability": "dev",
+    },
     "require": {
-        "php": ">=8.0.0",
+        "php": ">=7.0"
+    },
+    "require-dev": {
         "orchestra/testbench": "8.0.x-dev",
-        "phpunit/phpunit": "^9.5"
-    }
+        "phpunit/phpunit": "^9.5",
+        "ext-json": "*"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Chaos\\ResponseBuilder\\PackageServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "prefer-stable": true
 }
