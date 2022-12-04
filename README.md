@@ -1,18 +1,16 @@
+![REST API Response Builder for Laravel](assets/img/package.png)
+
 ## Response Builder for Laravel API
 
 ResponseBuilder is Laravel's helper designed to build nice, normalized and easy to consume REST API JSON responses.
 
 ## Requirement
 
-> Laravel >= 6.x
+> Laravel >= 5.5
 >
->  Php >= 7.2
->
-> composer
->
-> git
+>  Php >= 7.0
 
-# Installation & Configuration
+## Installation
 
 You can install the package via composer:
 
@@ -20,28 +18,28 @@ You can install the package via composer:
 $ composer require chaos/response-builder
 ```
 
-The package will automatically register its service provider for laravel 5.5.* and above.
+### Exposed Methods
 
-For below version need to register a service provider manually in  `config/app.php`
-
-```bash
-'providers' => [
-  /*
-  * Package Service Providers...
-  */
-  Chaos\ResponseBuilder\ResponseBuilderServiceProvider::class
-]
-```
-
-The package will automatically load alias for laravel 5.5.* and above.
-For below version need to add alias manually in `config/app.php`
-
-```bash
-'providers' => [
-  
-  'ResponseBuilder' => Chaos\ResponseBuilder\Facades\ResponseBuilder::class,
-]
-```
+#### success
+- Parameter `null|mixed $data`
+- Return `return \Chaos\ResponseBuilder\ResponseBuilder`
+#### error
+- Parameter `null|mixed $data`
+- Return `return \Chaos\ResponseBuilder\ResponseBuilder`
+#### message
+- Parameter `string $message`
+- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+#### httpHeaders
+- Parameter `array $httpHeaders`
+- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+#### httpStatusCode
+- Parameter `int $httpStatusCode`
+- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+#### append
+- Parameter `array $data`
+- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+#### build
+- Return `@return \Illuminate\Http\JsonResponse`
 
 ## Usage
 
@@ -50,9 +48,8 @@ For below version need to add alias manually in `config/app.php`
 ```php
 use Chaos\ResponseBuilder\Facades\ResponseBuilder;
 
-$data = [1, 2, 3, 4];
-return ResponseBuilder::success($data)
-    ->build();
+$items = [1, 2, 3, 4];
+return ResponseBuilder::success($items)->build();
 ```
 
 See response below:
@@ -60,11 +57,11 @@ See response below:
 ```text
 {
     "meta": {
-        "status":true,
-        "code":200,
-        "message":"OK"
+        "status": true,
+        "code": 200,
+        "message": "OK"
     },
-    "data":[1,2,3,4,5]
+    "data": [1,2,3,4,5]
 }
 ```
 
@@ -73,11 +70,10 @@ See response below:
 ```php
 use Chaos\ResponseBuilder\Facades\ResponseBuilder;
 
-$data = [1, 2, 3, 4];
-return ResponseBuilder::success($data)
+$items = [1, 2, 3, 4];
+return ResponseBuilder::success($items)
     ->message('Result Message')
-    ->append('custom-key','value')
-    ->httpStatusCode(Response::HTTP_NO_CONTENT)
+    ->append(['custom-key' => 'value'])
     ->build();
 ```
 
@@ -86,11 +82,11 @@ See response below:
 ```text
 {
     "meta": {
-        "status":true,
-        "code":204,
-        "message":"Result Message"
+        "status": true,
+        "code": 200,
+        "message": "Result Message"
     },
-    "data":[1,2,3,4,5],
+    "data": [1,2,3,4,5],
     "custom-key": "value"
 }
 ```
@@ -99,25 +95,11 @@ See response below:
 
 ```php
 use Chaos\ResponseBuilder\Facades\ResponseBuilder;
-use Chaos\ResponseBuilder\Resources\MessageResource;
 
-$data = collect(
-    [
-        "tr" => "Merhaba! Aklındaki tüm soruları sorabilirsin. En kısa sürede cevaplayacağım. 🤗",
-        "en" => "Hello! You can ask all your questions. I'll answer them as soon as I can. 🤗",
-        "ru" => "Здравствуйте! Вы можете задать все интересующие Вас вопросы. Я отвечу на них в ближайшее время. 🤗",
-        "uk" => "Вітаю! Ви можете задати всі ваші запитання. Я відповім на них якомога швидше. 🤗",
-        "es" => "¡Hola! Puedes hacer todas tus preguntas. Las responderé tan pronto como pueda 🤗",
-        "de" => "Hallo! Du kannst alle deine Fragen stellen. Ich werde sie so schnell wie möglich beantworten. 🤗",
-        "he" => "שלום! אתה יכול לשאול את כל השאלות שלך. אענה להם ברגע שאוכל 🤗",
-        "ar" => "مرحبًا! يمكنك أن تسأل كل أسئلتك. سأجيب عليهم بأسرع ما يمكن 🤗",
-        "pt" => "Olá! Você pode tirar todas as suas dúvidas. Vou respondê-las assim que puder 🤗",
-        "ja" => "こんにちは！いかなる質問でもお聞きください。早急に回答いたします。 🤗",
-   ]
-);
-return ResponseBuilder::success($data, MessageResource::class)
-    ->message('Result Message')
-    ->append('custom-key','value')
+$items = Blog::where('status', 1)->get();
+return ResponseBuilder::success($items, BlogResource::class)
+    ->message('Active Blog Lists')
+    ->append(['custom-key' => 'value'])
     ->build();
 ```
 
@@ -126,33 +108,121 @@ See response below:
 ```text
 {
     "meta": {
-        "status":true,
-        "code":200,
-        "message":"Result Message"
+        "status": true,
+        "code": 200,
+        "message": "Active Blog Lists"
     },
-    "data":[
-        "tr" => "Merhaba! Aklındaki tüm soruları sorabilirsin. En kısa sürede cevaplayacağım. 🤗",
-        "en" => "Hello! You can ask all your questions. I'll answer them as soon as I can. 🤗",
-        "ru" => "Здравствуйте! Вы можете задать все интересующие Вас вопросы. Я отвечу на них в ближайшее время. 🤗",
-        "uk" => "Вітаю! Ви можете задати всі ваші запитання. Я відповім на них якомога швидше. 🤗",
-        "es" => "¡Hola! Puedes hacer todas tus preguntas. Las responderé tan pronto como pueda 🤗",
-        "de" => "Hallo! Du kannst alle deine Fragen stellen. Ich werde sie so schnell wie möglich beantworten. 🤗",
-        "he" => "שלום! אתה יכול לשאול את כל השאלות שלך. אענה להם ברגע שאוכל 🤗",
-        "ar" => "مرحبًا! يمكنك أن تسأل كل أسئلتك. سأجيب عليهم بأسرع ما يمكن 🤗",
-        "pt" => "Olá! Você pode tirar todas as suas dúvidas. Vou respondê-las assim que puder 🤗",
-        "ja" => "こんにちは！いかなる質問でもお聞きください。早急に回答いたします。 🤗",
+    "data": [
+        {
+            id: 1,
+            title: "Lorem Ipsum 1",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            published_at: "2022-12-03 18:09:21",
+            "created_at": "2022-12-03 18:09:21" 
+        },
+        {
+            id: 2,
+            title: "Lorem Ipsum 2",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            published_at: "2022-12-03 18:19:35",
+            "created_at": "2022-12-03 18:19:35" 
+        },
     ],
     "custom-key": "value"
 }
 ```
 
 ### Example 4
+```php
+use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+
+$items = Blog::paginate();
+return ResponseBuilder::success($items, BlogResource::class)
+    ->message('Blog Lists')
+    ->build();
+```
+
+See response below:
+
+```text
+{
+    "meta": {
+        "status": true,
+        "code": 200,
+        "message": "Blog Lists"
+    },
+    "data": [
+        {
+            id: 1,
+            title: "Lorem Ipsum 1",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            published_at: "2022-12-03 18:09:21",
+            "created_at": "2022-12-03 18:09:21" 
+        },
+        {
+            id: 2,
+            title: "Lorem Ipsum 2",
+            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            published_at: "2022-12-03 18:19:35",
+            "created_at": "2022-12-03 18:19:35" 
+        },
+    ],
+    "pagination": {
+        total: 60,
+        per_page: 10,
+        current_page: 1,
+        last_page: 6,
+        count: 10,
+        from: 1,
+        to:10,
+        links: [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "your_app_url?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "your_app_url?page=2",
+                "label": "2",
+                "active": false
+            },
+            {
+                "url": "your_app_url?page=3",
+                "label": "3",
+                "active": false
+            },
+            {
+                "url": "your_app_url?page=4",
+                "label": "4",
+                "active": false
+            },
+            {
+                "url": null,
+                "label": "...",
+                "active": false
+            },
+            {
+                "url": "your_app_url?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ]
+    }
+}
+```
+
+### Example 5
 
 ```php
 use Chaos\ResponseBuilder\Facades\ResponseBuilder;
 use Chaos\ResponseBuilder\Resources\MessageResource;
 
-$data = [
+$items = [
     'device_id'     => "26728172-d050-4126-8ee2-4bfe8201565c",
     'secret'        => "0184cd97-7351-7121-91cb-5a818f3eb4b0",
     'platform'      => "iOS",
@@ -162,7 +232,7 @@ $data = [
     "time_zone"     => "Europe/Istanbul",
 ];
 
-$validator = Validator::make($data, [
+$validator = Validator::make($items, [
     'device_id' => 'required|size:12', // device length should be 12 chars
     'secret'    => 'required',
     'platform'  => ['required', Rule::in('Android', 'iOS', 'Huawei')],
@@ -176,13 +246,63 @@ See response below:
 
 ```text
 {
-    "meta":{
-        "status":false,
-        "code":422,
-        "message":"Error"
+    "meta": {
+        "status": false,
+        "code": 422,
+        "message": "Error"
    },
-   "errors":{
-        "device_id":["The device id must be 12 characters."]
+   "errors": {
+        "device_id": ["The device id must be 12 characters."]
    }
 }
 ```
+
+### Example 6
+```bash
+
+use  Chaos\Traits\FailedValidationTrait;
+
+
+class BlogRequest extends Request {
+
+    use FailedValidationTrait;
+    .
+    .
+
+}
+```
+
+See response below:
+
+```text
+{
+    "meta": {
+        "status": false,
+        "code": 422,
+        "message": "Error"
+   },
+   "errors": {
+        "device_id": ["The device id must be 12 characters."]
+   }
+}
+```
+
+# Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+# Contributing
+Any ideas are welcome. Feel free to submit any issues or pull requests.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+# Security
+
+If you discover any security related issues, please email ibrahimhalilucan@gmail.com instead of using the issue tracker.
+
+Credits
+
+- [İbrahim Halil Uçan](https://github.com/ibrahimhalilucan)
+
+# License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

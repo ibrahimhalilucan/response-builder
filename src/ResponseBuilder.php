@@ -83,7 +83,7 @@ class ResponseBuilder
     }
 
     /**
-     * @param array|null $headers
+     * @param array $headers
      * @return $this
      */
     public function httpHeaders(array $headers): self
@@ -99,6 +99,21 @@ class ResponseBuilder
     public function httpStatusCode(int $code): self
     {
         $this->httpStatusCode = $code;
+        return $this;
+    }
+
+    /**
+     * @param array $appends
+     * @return $this
+     */
+    public function append(array $appends = []): self
+    {
+        if (!empty($appends) && !Arr::isAssoc($appends)) {
+            throw new InvalidArrayArgumentException('Appends must be an associative array');
+        }
+        foreach ($appends as $key => $value) {
+            $this->appends[$key] = $value;
+        }
         return $this;
     }
 
@@ -165,21 +180,6 @@ class ResponseBuilder
     }
 
     /**
-     * @param array $appends
-     * @return $this
-     */
-    public function append(array $appends = []): self
-    {
-        if (!empty($appends) && !Arr::isAssoc($appends)) {
-            throw new InvalidArrayArgumentException('Appends must be an associative array');
-        }
-        foreach ($appends as $key => $value) {
-            $this->appends[$key] = $value;
-        }
-        return $this;
-    }
-
-    /**
      * @param $resource
      * @return array
      */
@@ -206,7 +206,7 @@ class ResponseBuilder
      * @param callable $callback
      * @return $this
      */
-    public function when(bool $condition, callable $callback): self
+    private function when(bool $condition, callable $callback): self
     {
         if ($condition) {
             return $callback($this);
