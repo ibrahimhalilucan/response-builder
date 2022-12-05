@@ -1,6 +1,6 @@
 <?php
 
-namespace Chaos\ResponseBuilder;
+namespace IbrahimHalilUcan\ResponseBuilder;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,5 +1,5 @@
 {
-    "name": "chaos/response-builder",
+    "name": "ibrahimhalilucan/response-builder",
     "description": "Laravel API Response Builder",
     "license": "MIT",
     "keywords": ["api", "laravel", "json-api", "rest-api", "response", "restful-api"],
@@ -9,13 +9,13 @@
         {
             "name": "İbrahim Halil Uçan",
             "email": "ibrahimhalilucan@gmail.com",
-            "homepage": "",
+            "homepage": "https://github.com/ibrahimhalilucan",
             "role": "Developer"
         }
     ],
     "autoload": {
         "psr-4": {
-            "Chaos\\ResponseBuilder\\": "src/"
+            "IbrahimHalilUcan\\ResponseBuilder\\": "src/"
         }
     },
     "autoload-dev": {
@@ -24,7 +24,7 @@
         }
     },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.1"
     },
     "require-dev": {
         "orchestra/testbench": "8.0.x-dev",
@@ -37,7 +37,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Chaos\\ResponseBuilder\\PackageServiceProvider"
+                "IbrahimHalilUcan\\ResponseBuilder\\PackageServiceProvider"
             ]
         }
     },

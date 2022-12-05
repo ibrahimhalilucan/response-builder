@@ -1,6 +1,6 @@
 <?php
 
-namespace Chaos\ResponseBuilder\Exception;
+namespace IbrahimHalilUcan\ResponseBuilder\Exception;
 
 /**
  * Class InvalidArrayArgumentException.

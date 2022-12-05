@@ -1,9 +1,9 @@
 <?php
 
-namespace Chaos\ResponseBuilder\Traits;
+namespace IbrahimHalilUcan\ResponseBuilder\Traits;
 
 use Illuminate\Contracts\Validation\Validator;
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 

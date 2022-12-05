@@ -1,7 +1,8 @@
 <?php
 
+use Faker\Factory;
 use Illuminate\Support\Facades\Validator;
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
 use Illuminate\Validation\Rule;
 use Orchestra\Testbench\TestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,31 +12,39 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class FeatureTest extends TestCase
 {
-    // When testing inside of a Laravel installation, this is not needed
-    protected function getPackageProviders($app): array
-    {
-        return [
-            'Chaos\ResponseBuilder\PackageServiceProvider'
-        ];
-    }
+    private $item;
 
-    /**
-     * @var array
-     */
-    private $item = [
-        'device_id'     => "26728172-d050-4126-8ee2-4bfe8201565c",
-        'secret'        => "0184cd97-7351-7121-91cb-5a818f3eb4b0",
-        'platform'      => "iOS",
-        'version'       => "1.0",
-        "language_code" => "en",
-        "country_code"  => "TR",
-        "time_zone"     => "Europe/Istanbul",
-    ];
+    protected $faker;
 
     /**
      * @var string
      */
     private $customKey = 'custom-key';
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $faker = Factory::create('en_US');
+        $data = [
+            'device_id'     => $faker->uuid,
+            'secret'        => $faker->unixTime,
+            'agent'         => $faker->iosMobileToken,
+            'version'       => $faker->semver(),
+            "language_code" => $faker->languageCode,
+            "country_code"  => $faker->countryCode,
+            "time_zone"     => $faker->timezone,
+        ];
+
+        $this->item = $data;
+    }
+
+    // When testing inside of a Laravel installation, this is not needed
+    protected function getPackageProviders($app): array
+    {
+        return [
+            'IbrahimHalilUcan\ResponseBuilder\PackageServiceProvider'
+        ];
+    }
 
     /** @test */
     public function test_data_should_return_success_response()

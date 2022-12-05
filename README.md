@@ -6,38 +6,38 @@ ResponseBuilder is Laravel's helper designed to build nice, normalized and easy 
 
 ## Requirement
 
-> Laravel >= 5.5
+> Laravel >= 5.6
 >
->  Php >= 7.0
+>  Php >= 7.1
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-$ composer require chaos/response-builder
+$ composer require ibrahimhalilucan/response-builder
 ```
 
 ### Exposed Methods
 
 #### success
 - Parameter `null|mixed $data`
-- Return `return \Chaos\ResponseBuilder\ResponseBuilder`
+- Return `return \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder`
 #### error
 - Parameter `null|mixed $data`
-- Return `return \Chaos\ResponseBuilder\ResponseBuilder`
+- Return `return \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder`
 #### message
 - Parameter `string $message`
-- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+- Return `@return \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder`
 #### httpHeaders
 - Parameter `array $httpHeaders`
-- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+- Return `@return \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder`
 #### httpStatusCode
 - Parameter `int $httpStatusCode`
-- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+- Return `@return \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder`
 #### append
 - Parameter `array $data`
-- Return `@return \Chaos\ResponseBuilder\ResponseBuilder`
+- Return `@return \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder`
 #### build
 - Return `@return \Illuminate\Http\JsonResponse`
 
@@ -46,7 +46,7 @@ $ composer require chaos/response-builder
 ### Example 1
 
 ```php
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
 
 $items = [1, 2, 3, 4];
 return ResponseBuilder::success($items)->build();
@@ -68,12 +68,14 @@ See response below:
 ### Example 2
 
 ```php
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
+use Symfony\Component\HttpFoundation\Response;
 
 $items = [1, 2, 3, 4];
 return ResponseBuilder::success($items)
     ->message('Result Message')
     ->append(['custom-key' => 'value'])
+    ->httpStatusCode(Response::HTTP_OK)
     ->build();
 ```
 
@@ -94,7 +96,7 @@ See response below:
 ### Example 3
 
 ```php
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
 
 $items = Blog::where('status', 1)->get();
 return ResponseBuilder::success($items, BlogResource::class)
@@ -114,17 +116,17 @@ See response below:
     },
     "data": [
         {
-            id: 1,
-            title: "Lorem Ipsum 1",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            published_at: "2022-12-03 18:09:21",
+            "id": 1,
+            "title": "Lorem Ipsum 1",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "published_at": "2022-12-03 18:09:21",
             "created_at": "2022-12-03 18:09:21" 
         },
         {
-            id: 2,
-            title: "Lorem Ipsum 2",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            published_at: "2022-12-03 18:19:35",
+            "id": 2,
+            "title": "Lorem Ipsum 2",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "published_at": "2022-12-03 18:19:35",
             "created_at": "2022-12-03 18:19:35" 
         },
     ],
@@ -134,7 +136,7 @@ See response below:
 
 ### Example 4
 ```php
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
 
 $items = Blog::paginate();
 return ResponseBuilder::success($items, BlogResource::class)
@@ -153,29 +155,29 @@ See response below:
     },
     "data": [
         {
-            id: 1,
-            title: "Lorem Ipsum 1",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            published_at: "2022-12-03 18:09:21",
-            "created_at": "2022-12-03 18:09:21" 
+            "id": 1,
+            "title": "Lorem Ipsum 1",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "published_at": "2022-12-03 18:09:21",
+            ""created_at"": "2022-12-03 18:09:21" 
         },
         {
-            id: 2,
-            title: "Lorem Ipsum 2",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-            published_at: "2022-12-03 18:19:35",
+            "id": 2,
+            "title": "Lorem Ipsum 2",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+            "published_at": "2022-12-03 18:19:35",
             "created_at": "2022-12-03 18:19:35" 
         },
     ],
     "pagination": {
-        total: 60,
-        per_page: 10,
-        current_page: 1,
-        last_page: 6,
-        count: 10,
-        from: 1,
-        to:10,
-        links: [
+        "total": 60,
+        "per_page": 10,
+        "current_page": 1,
+        "last_page": 6,
+        "count": 10,
+        "from": 1,
+        "to":10,
+        "links": [
             {
                 "url": null,
                 "label": "&laquo; Previous",
@@ -219,17 +221,16 @@ See response below:
 ### Example 5
 
 ```php
-use Chaos\ResponseBuilder\Facades\ResponseBuilder;
-use Chaos\ResponseBuilder\Resources\MessageResource;
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
 
 $items = [
     'device_id'     => "26728172-d050-4126-8ee2-4bfe8201565c",
     'secret'        => "0184cd97-7351-7121-91cb-5a818f3eb4b0",
     'platform'      => "iOS",
     'version'       => "1.0",
-    "language_code" => "en",
-    "country_code"  => "TR",
-    "time_zone"     => "Europe/Istanbul",
+    'language_code' => "en",
+    'country_code'  => "TR",
+    'time_zone'     => "Europe/Istanbul",
 ];
 
 $validator = Validator::make($items, [
@@ -260,7 +261,7 @@ See response below:
 ### Example 6
 ```bash
 
-use  Chaos\Traits\FailedValidationTrait;
+use  IbrahimHalilUcan\Traits\FailedValidationTrait;
 
 
 class BlogRequest extends Request {
@@ -287,22 +288,22 @@ See response below:
 }
 ```
 
-# Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
 
-# Contributing
+## Contributing
 Any ideas are welcome. Feel free to submit any issues or pull requests.
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-# Security
+## Security
 
 If you discover any security related issues, please email ibrahimhalilucan@gmail.com instead of using the issue tracker.
 
-Credits
+## Credits
 
 - [İbrahim Halil Uçan](https://github.com/ibrahimhalilucan)
 
-# License
+## License
 
 The MIT License (MIT). Please see [License File](LICENSE) for more information.

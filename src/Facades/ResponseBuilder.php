@@ -1,6 +1,6 @@
 <?php
 
-namespace Chaos\ResponseBuilder\Facades;
+namespace IbrahimHalilUcan\ResponseBuilder\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
