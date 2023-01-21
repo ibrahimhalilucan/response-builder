@@ -146,6 +146,15 @@ class ResponseBuilder
     }
 
     /**
+     * @return $this
+     */
+    public function noContent(): self
+    {
+        $this->httpStatusCode = Response::HTTP_NO_CONTENT;
+        return $this;
+    }
+
+    /**
      * @param $data
      * @param string|null $resourceNamespace
      * @return $this
@@ -224,9 +233,8 @@ class ResponseBuilder
         $this->response['meta']['code'] = $this->httpStatusCode;
         $this->response['meta']['message'] = $this->message;
 
-        if (!empty($this->data)) {
-            $this->response['data'] = $this->data;
-        }
+
+        $this->response['data'] = $this->data ?? null;
 
         if (!empty($this->pagination)) {
             $this->response['pagination'] = $this->pagination;

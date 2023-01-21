@@ -10,3 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2022-12-06
 
 - Initial release
+
+## [1.1.0] - 2023-01-21
+
+- Added no content response
+- Added unit test for no content
+- Updated CHANGELOG.md

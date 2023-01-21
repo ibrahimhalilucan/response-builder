@@ -2,7 +2,7 @@
     "name": "ibrahimhalilucan/response-builder",
     "description": "Laravel API Response Builder",
     "license": "MIT",
-    "keywords": ["api", "laravel", "json-api", "rest-api", "response", "restful-api"],
+    "keywords": ["api", "laravel", "json-api", "rest-api", "response", "restful-api", "php", "package", "library"],
     "type": "library",
     "minimum-stability": "dev",
     "authors": [

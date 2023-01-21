@@ -110,4 +110,15 @@ class FeatureTest extends TestCase
 
         $this->assertTrue(!is_null($responseData));
     }
+
+    public function test_data_should_return_success_no_content()
+    {
+        $response = ResponseBuilder::noContent()->build();
+
+        $response = $response->getContent();
+
+        $responseCode = json_decode($response, true)["meta"]["code"];
+
+        $this->assertTrue(Response::HTTP_NO_CONTENT === $responseCode);
+    }
 }

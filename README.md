@@ -288,6 +288,27 @@ See response below:
 }
 ```
 
+### Example 7
+
+```php
+use IbrahimHalilUcan\ResponseBuilder\Facades\ResponseBuilder;
+
+return ResponseBuilder::noContent()->build();
+```
+
+See response below:
+
+```text
+{
+    "meta": {
+        "status": true,
+        "code": 204,
+        "message": "OK"
+    },
+    "data": null
+}
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
