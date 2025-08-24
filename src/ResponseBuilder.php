@@ -159,11 +159,13 @@ class ResponseBuilder
      * @param string|null $resourceNamespace
      * @return $this
      */
-    public function success($data, string $resourceNamespace = null): self
+    public function success($data = null, string $resourceNamespace = null): self
     {
-        return $this->when(!empty($data), function (ResponseBuilder $builder) use ($data, $resourceNamespace) {
-            return $builder->withData($data, $resourceNamespace);
-        });
+        if (empty($data)) {
+            return $this->httpStatusCode(Response::HTTP_OK);
+        }
+
+        return $this->withData($data, $resourceNamespace);
     }
 
     /**
