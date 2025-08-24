@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
  * @method static ResponseBuilder success($data =null , string|null $resourceNamespace = null)
  * @method static ResponseBuilder error($data)
  * @method static ResponseBuilder noContent()
- * @method static ResponseBuilder build()
+ * @method static JsonResponse build()
  *
  */
 class ResponseBuilder extends Facade
