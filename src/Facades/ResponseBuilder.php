@@ -3,17 +3,17 @@
 namespace IbrahimHalilUcan\ResponseBuilder\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Illuminate\Http\JsonResponse;
 
 /**
  * @method static ResponseBuilder message(string $message)
  * @method static ResponseBuilder httpHeaders(array $headers)
  * @method static ResponseBuilder append(array $appends = []) .
- * @method static ResponseBuilder success($data, string|null $resourceNamespace = null)
+ * @method static ResponseBuilder success($data =null , string|null $resourceNamespace = null)
  * @method static ResponseBuilder error($data)
  * @method static ResponseBuilder noContent()
- * @method static JsonResponse build()
+ * @method static ResponseBuilder build()
  *
- * @see \IbrahimHalilUcan\ResponseBuilder\ResponseBuilder
  */
 class ResponseBuilder extends Facade
 {
