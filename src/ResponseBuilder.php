@@ -196,8 +196,16 @@ class ResponseBuilder
      */
     private function paginationCollection($resource): array
     {
-        $pagination = $resource->linkCollection()->filter(function ($item) {
-            return (int)$item["label"] <= config('response-builder.pagination_size_count');
+        $currentPage = $resource->currentPage();
+
+        $pagination = $resource->linkCollection()->filter(function ($item) use ($currentPage) {
+            if (!is_numeric($item['label'])) {
+                return true;
+            }
+
+            $label = (int) $item['label'];
+
+            return $label >= $currentPage - 5 && $label <= $currentPage + 5;
         })->values();
 
         return [
